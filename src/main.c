@@ -1,30 +1,24 @@
 #include <stdio.h>
 
+#include "String.h"
 #include "new.h"
-#include "Object.h"
-#include "Set.h"
 
 int main(void)
 {
-    void *s = new(Set);
-    void *a = add(s, new(Object));
-    void *b = add(s, new(Object));
-    void *c = new(Object);
+    void *a = new(String, "a"), *aa = clone(a);
+    void *b = new(String, "b");
 
-    if (contains(s, a) && contains(s, b))
+    printf("sizeOf(a) == %lu\n", sizeOf(a));
+
+    if (differ(a, b))
         puts("ok");
 
-    if (contains(s, c))
-        puts("contains?");
-
-    if (differ(a, add(s, a)))
+    if (differ(a, aa))
         puts("differ?");
 
-    if (contains(s, drop(s, a)))
-        puts("drop?");
+    if (a == aa)
+        puts("clone?");
 
-    delete(drop(s, b));
-    delete(drop(s, c));
-
+    delete(a), delete(aa), delete(b);
     return 0;
 }
